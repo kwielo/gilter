@@ -1,0 +1,24 @@
+<div class="row col-md-12">
+
+    <article class="row col-md-12" ng-repeat="filter in filters.feed.entry">
+        <div class="row col-md-12" gl-header="filter"></div>
+        <div class="row col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#criteria-{{ $index }}" data-toggle="tab">criteria</a></li>
+                <li><a href="#actions-{{ $index }}" data-toggle="tab">actions</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade active in" id="criteria-{{ $index }}">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="criterion in criteria">
+                            <span class="label label-default">{{ criterion.name }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="actions-{{ $index }}">
+                    actions
+                </div>
+            </div>
+        </div>
+    </article>
+</div>

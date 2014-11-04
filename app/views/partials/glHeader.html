@@ -1,0 +1,3 @@
+<div class="col-md-6" ng-class="{'col-md-6':((props|header).length>1),'col-md-12':((props|header).length==1)}" ng-repeat="prop in props|header">
+    <span class="label label-primary">{{ prop._name }}</span>&nbsp;{{ prop._value|label:'OR' }}
+</div>
