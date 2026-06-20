@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns='http://www.w3.org/2005/Atom' xmlns:apps='http://schemas.google.com/apps/2006'>
+	<title>Mail Filters</title>
+	<id>tag:mail.google.com,2008:filters:1379587164706,1457125020480,z0000001576610302746*4678096852068173025,z0000001662371848971*1947495970640013213,z0000001733487374455*8907158247034496426,z0000001733487515506*3062268284203998517,z0000001764442015886*8472667039886241608,z0000001764442202665*0470441688219757789,z0000001764442331014*0564003547954018185</id>
+	<updated>2026-06-20T22:33:12Z</updated>
+	<author>
+		<name>Krzysztof Wielogórski</name>
+		<email>kwielogorski@gmail.com</email>
+	</author>
+	<entry>
+		<category term='filter'></category>
+		<title>Mail Filter</title>
+		<id>tag:mail.google.com,2008:filter:1379587164706</id>
+		<updated>2026-06-20T22:33:12Z</updated>
+		<content></content>
+		<apps:property name='to' value='*spam*'/>
+		<apps:property name='shouldTrash' value='true'/>
+		<apps:property name='shouldNeverMarkAsImportant' value='true'/>
+	</entry>
+	<entry>
+		<category term='filter'></category>
+		<title>Mail Filter</title>
+		<id>tag:mail.google.com,2008:filter:1457125020480</id>
+		<updated>2026-06-20T22:33:12Z</updated>
+		<content></content>
+		<apps:property name='from' value='*booking.com'/>
+		<apps:property name='shouldNeverSpam' value='true'/>
+		<apps:property name='shouldAlwaysMarkAsImportant' value='true'/>
+		<apps:property name='smartLabelToApply' value='^smartlabel_personal'/>
+		<apps:property name='sizeOperator' value='s_sl'/>
+		<apps:property name='sizeUnit' value='s_smb'/>
+	</entry>
+	<entry>
+		<category term='filter'></category>
+		<title>Mail Filter</title>
+		<id>tag:mail.google.com,2008:filter:z0000001576610302746*4678096852068173025</id>
+		<updated>2026-06-20T22:33:12Z</updated>
+		<content></content>
+		<apps:property name='from' value='orlenpay@orlen.pl'/>
+		<apps:property name='to' value='kwielogorski@gmail.com'/>
+		<apps:property name='subject' value='*faktura*'/>
+		<apps:property name='hasAttachment' value='true'/>
+		<apps:property name='forwardTo' value='contact@wielo.co'/>
+		<apps:property name='sizeOperator' value='s_sl'/>
+		<apps:property name='sizeUnit' value='s_smb'/>
+	</entry>
+	<entry>
+		<category term='filter'></category>
+		<title>Mail Filter</title>
+		<id>tag:mail.google.com,2008:filter:z0000001662371848971*1947495970640013213</id>
+		<updated>2026-06-20T22:33:12Z</updated>
+		<content></content>
+		<apps:property name='from' value='noreply@axerve.com OR siteservice@amigosharing.it'/>
+		<apps:property name='shouldTrash' value='true'/>
+		<apps:property name='sizeOperator' value='s_sl'/>
+		<apps:property name='sizeUnit' value='s_smb'/>
+	</entry>
+	<entry>
+		<category term='filter'></category>
+		<title>Mail Filter</title>
+		<id>tag:mail.google.com,2008:filter:z0000001733487374455*8907158247034496426</id>
+		<updated>2026-06-20T22:33:12Z</updated>
+		<content></content>
+		<apps:property name='from' value='notifications@tally.so'/>
+		<apps:property name='forwardTo' value='psycholinka@gmail.com'/>
+		<apps:property name='shouldNeverSpam' value='true'/>
+		<apps:property name='shouldAlwaysMarkAsImportant' value='true'/>
+		<apps:property name='sizeOperator' value='s_sl'/>
+		<apps:property name='sizeUnit' value='s_smb'/>
+	</entry>
+	<entry>
+		<category term='filter'></category>
+		<title>Mail Filter</title>
+		<id>tag:mail.google.com,2008:filter:z0000001733487515506*3062268284203998517</id>
+		<updated>2026-06-20T22:33:12Z</updated>
+		<content></content>
+		<apps:property name='from' value='*cbp.dhs.gov'/>
+		<apps:property name='shouldNeverSpam' value='true'/>
+		<apps:property name='shouldAlwaysMarkAsImportant' value='true'/>
+		<apps:property name='sizeOperator' value='s_sl'/>
+		<apps:property name='sizeUnit' value='s_smb'/>
+	</entry>
+	<entry>
+		<category term='filter'></category>
+		<title>Mail Filter</title>
+		<id>tag:mail.google.com,2008:filter:z0000001764442015886*8472667039886241608</id>
+		<updated>2026-06-20T22:33:12Z</updated>
+		<content></content>
+		<apps:property name='from' value='noreply@traficar.pl'/>
+		<apps:property name='hasAttachment' value='true'/>
+		<apps:property name='forwardTo' value='contact@wielo.co'/>
+		<apps:property name='shouldNeverSpam' value='true'/>
+		<apps:property name='shouldAlwaysMarkAsImportant' value='true'/>
+		<apps:property name='smartLabelToApply' value='^smartlabel_personal'/>
+		<apps:property name='sizeOperator' value='s_sl'/>
+		<apps:property name='sizeUnit' value='s_smb'/>
+	</entry>
+	<entry>
+		<category term='filter'></category>
+		<title>Mail Filter</title>
+		<id>tag:mail.google.com,2008:filter:z0000001764442202665*0470441688219757789</id>
+		<updated>2026-06-20T22:33:12Z</updated>
+		<content></content>
+		<apps:property name='from' value='faktura@leaselink.pl'/>
+		<apps:property name='hasAttachment' value='true'/>
+		<apps:property name='forwardTo' value='contact@wielo.co'/>
+		<apps:property name='shouldNeverSpam' value='true'/>
+		<apps:property name='shouldAlwaysMarkAsImportant' value='true'/>
+		<apps:property name='smartLabelToApply' value='^smartlabel_personal'/>
+		<apps:property name='sizeOperator' value='s_sl'/>
+		<apps:property name='sizeUnit' value='s_smb'/>
+	</entry>
+	<entry>
+		<category term='filter'></category>
+		<title>Mail Filter</title>
+		<id>tag:mail.google.com,2008:filter:z0000001764442331014*0564003547954018185</id>
+		<updated>2026-06-20T22:33:12Z</updated>
+		<content></content>
+		<apps:property name='from' value='najem@bolttech.pl'/>
+		<apps:property name='subject' value='*faktura*'/>
+		<apps:property name='hasAttachment' value='true'/>
+		<apps:property name='forwardTo' value='contact@wielo.co'/>
+		<apps:property name='shouldNeverSpam' value='true'/>
+		<apps:property name='shouldAlwaysMarkAsImportant' value='true'/>
+		<apps:property name='smartLabelToApply' value='^smartlabel_personal'/>
+		<apps:property name='sizeOperator' value='s_sl'/>
+		<apps:property name='sizeUnit' value='s_smb'/>
+	</entry>
+</feed>
