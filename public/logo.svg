@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="funnel" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e0e7ff"/>
+    </linearGradient>
+  </defs>
+  <!-- Rounded square background -->
+  <rect width="512" height="512" rx="96" ry="96" fill="url(#bg)"/>
+  <!-- Filter/funnel icon -->
+  <g transform="translate(256,240)">
+    <!-- Funnel body -->
+    <polygon points="-120,-100 120,-100 30,30 30,100 -30,120 -30,30" fill="url(#funnel)" opacity="0.95"/>
+    <!-- Horizontal filter lines inside funnel -->
+    <line x1="-90" y1="-65" x2="90" y2="-65" stroke="#6366f1" stroke-width="8" stroke-linecap="round" opacity="0.5"/>
+    <line x1="-65" y1="-30" x2="65" y2="-30" stroke="#6366f1" stroke-width="8" stroke-linecap="round" opacity="0.5"/>
+    <line x1="-40" y1="5" x2="40" y2="5" stroke="#6366f1" stroke-width="8" stroke-linecap="round" opacity="0.5"/>
+  </g>
+  <!-- "gilter" text -->
+  <text x="256" y="430" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="72" font-weight="700" fill="#ffffff" letter-spacing="4">gilter</text>
+</svg>
