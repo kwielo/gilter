@@ -34,4 +34,5 @@ export const Events = Object.freeze({
   TOAST:             'toast',
   HISTORY_CHANGED:   'history:changed',
   SELECTION_CHANGED: 'selection:changed',
+  AUTH_CHANGED:      'auth:changed',
 });
