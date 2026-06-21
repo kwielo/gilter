@@ -51,6 +51,21 @@ function boot(): void {
   new GmailPanel().mount(app);
   new SearchBar().mount(app);
   new FilterList().mount(app);
+
+  mountFooter(app);
+}
+
+function mountFooter(parent: HTMLElement): void {
+  const footer = document.createElement('footer');
+  footer.className = 'app-footer';
+  footer.innerHTML = `
+    <span>&copy; ${new Date().getFullYear()} <a href="https://wielo.co" target="_blank" rel="noopener">wielo.co</a></span>
+    <nav class="app-footer__links">
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms of Service</a>
+      <a href="https://github.com/kwielo/gilter" target="_blank" rel="noopener">GitHub</a>
+    </nav>`;
+  parent.appendChild(footer);
 }
 
 if (document.readyState === 'loading') {

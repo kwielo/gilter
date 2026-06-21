@@ -765,6 +765,33 @@ body {
   width: 100%;
 }
 
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding: 20px 0;
+  border-top: 1px solid var(--color-border);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.app-footer a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.app-footer a:hover {
+  color: var(--color-primary);
+}
+
+.app-footer__links {
+  display: flex;
+  gap: 16px;
+}
+
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 
 @media (max-width: 600px) {
@@ -781,4 +808,6 @@ body {
   .gmail-panel__connected { flex-direction: column; align-items: stretch; }
   .gmail-panel__actions { flex-direction: column; }
   .gmail-panel__connect { flex-direction: column; align-items: stretch; }
+  .app-footer { flex-direction: column; gap: 8px; text-align: center; }
+  .app-footer__links { justify-content: center; }
 }
