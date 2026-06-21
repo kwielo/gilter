@@ -79,13 +79,18 @@ export class FilterCard extends Component {
 
   private renderBadges(props: FilterCriteria | FilterActions, group: 'criteria' | 'action'): string {
     const entries = Object.entries(props).filter(
-      ([, v]) => v !== false && v !== null && v !== undefined && v !== '',
+      ([, v]) => v !== false && v !== null && v !== undefined && v !== '' && !(Array.isArray(v) && v.length === 0),
     );
     if (entries.length === 0) return `<span class="badge badge--empty">none</span>`;
 
-    return entries.map(([key, val]) => {
+    return entries.flatMap(([key, val]) => {
       const def = getFieldDef(key);
       const label = def?.label ?? key;
+      if (key === 'label' && Array.isArray(val)) {
+        return (val as string[]).map(l =>
+          `<span class="badge badge--${group}">${escHtml(label)}: ${escHtml(l)}</span>`
+        );
+      }
       let displayVal = String(val);
       if (key === 'smartLabelToApply') {
         const opt = SMART_LABEL_OPTIONS.find(o => o.value === val);

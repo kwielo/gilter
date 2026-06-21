@@ -22,6 +22,11 @@ export function restoreFromStorage(): { meta: FeedMeta; filters: Filter[] } | nu
     if (!raw) return null;
     const parsed: StoredData = JSON.parse(raw);
     if (!parsed?.filters || !Array.isArray(parsed.filters)) return null;
+    for (const f of parsed.filters) {
+      if (typeof f.actions?.label === 'string') {
+        f.actions.label = [f.actions.label];
+      }
+    }
     return { meta: parsed.meta, filters: parsed.filters };
   } catch {
     return null;

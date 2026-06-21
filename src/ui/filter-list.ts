@@ -154,10 +154,11 @@ export class FilterList extends Component {
     const q = this.searchQuery;
     const { criteria, actions } = filter;
 
-    const searchable = [
+    const searchable: (string | undefined)[] = [
       criteria.from, criteria.to, criteria.subject,
       criteria.hasTheWord, criteria.doesNotHaveTheWord,
-      actions.forwardTo, actions.label, actions.smartLabelToApply,
+      actions.forwardTo, actions.smartLabelToApply,
+      ...(actions.label ?? []),
     ];
 
     return searchable.some(v => v && v.toLowerCase().includes(q));
