@@ -1,6 +1,9 @@
 {
   "name": "gilter",
   "compatibility_date": "2026-06-20",
+  "build": {
+    "command": "npm run build"
+  },
   "assets": {
     "directory": "./dist"
   }
