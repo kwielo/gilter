@@ -35,4 +35,5 @@ export const Events = Object.freeze({
   HISTORY_CHANGED:   'history:changed',
   SELECTION_CHANGED: 'selection:changed',
   AUTH_CHANGED:      'auth:changed',
+  LABELS_CHANGED:    'labels:changed',
 });

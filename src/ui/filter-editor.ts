@@ -9,6 +9,7 @@ import { Component } from './component';
 import type { Filter, FilterCriteria, FilterActions } from '../domain/types';
 import { CRITERIA_FIELDS, ACTION_FIELDS, type FieldDef } from '../domain/schema';
 import * as store from '../store/filter-store';
+import * as labelCache from '../store/label-cache';
 import { toast } from './toast';
 
 interface EditorOptions {
@@ -29,8 +30,10 @@ export class FilterEditor extends Component {
 
   private render(): void {
     const { criteria, actions } = this.filter;
+    const labels = labelCache.getLabels();
 
     this.el.innerHTML = `
+      ${labels.length > 0 ? `<datalist id="label-suggestions">${labels.map(l => `<option value="${escAttr(l)}">`).join('')}</datalist>` : ''}
       <fieldset class="filter-editor__group">
         <legend>Criteria</legend>
         ${CRITERIA_FIELDS.map(f => this.field(f, (criteria as Record<string, unknown>)[f.key])).join('')}
@@ -55,11 +58,27 @@ export class FilterEditor extends Component {
           <span>${def.label}</span>
         </label>`;
     }
+
+    if (def.type === 'select' && def.options) {
+      const current = String(value ?? '');
+      const optionsHtml = def.options
+        .map(o => `<option value="${escAttr(o.value)}" ${o.value === current ? 'selected' : ''}>${escHtml(o.label)}</option>`)
+        .join('');
+      return `
+        <label class="filter-editor__field">
+          <span>${def.label}</span>
+          <select name="${def.key}" class="filter-editor__select">
+            ${optionsHtml}
+          </select>
+        </label>`;
+    }
+
+    const listAttr = def.key === 'label' && labelCache.hasLabels() ? ' list="label-suggestions"' : '';
     return `
       <label class="filter-editor__field">
         <span>${def.label}</span>
         <input type="text" name="${def.key}" value="${escAttr(String(value ?? ''))}"
-               placeholder="${def.label}" />
+               placeholder="${def.label}"${listAttr} />
       </label>`;
   }
 
@@ -92,6 +111,10 @@ export class FilterEditor extends Component {
       if (def.type === 'boolean') {
         const el = this.el.querySelector<HTMLInputElement>(`[name="${def.key}"]`)!;
         if (el.checked) (actions as Record<string, unknown>)[def.key] = true;
+      } else if (def.type === 'select') {
+        const el = this.el.querySelector<HTMLSelectElement>(`[name="${def.key}"]`)!;
+        const val = el.value;
+        if (val) (actions as Record<string, unknown>)[def.key] = val;
       } else {
         const el = this.el.querySelector<HTMLInputElement>(`[name="${def.key}"]`)!;
         const val = el.value.trim();
@@ -107,4 +130,8 @@ export class FilterEditor extends Component {
 
 function escAttr(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function escHtml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
