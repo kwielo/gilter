@@ -5,14 +5,29 @@
  * editor form, and validation logic all derive their behaviour from this map.
  */
 
-export type FieldType = 'string' | 'boolean';
+export type FieldType = 'string' | 'boolean' | 'select';
+
+export interface SelectOption {
+  value: string;
+  label: string;
+}
 
 export interface FieldDef {
   key: string;
   label: string;
   type: FieldType;
   group: 'criteria' | 'action';
+  options?: readonly SelectOption[];
 }
+
+export const SMART_LABEL_OPTIONS: readonly SelectOption[] = [
+  { value: '',                          label: '(none)' },
+  { value: '^smartlabel_personal',      label: 'Personal' },
+  { value: '^smartlabel_social',        label: 'Social' },
+  { value: '^smartlabel_promo',         label: 'Promotions' },
+  { value: '^smartlabel_notification',  label: 'Updates' },
+  { value: '^smartlabel_group',         label: 'Forums' },
+];
 
 export const CRITERIA_FIELDS: readonly FieldDef[] = [
   { key: 'from',               label: 'From',               type: 'string',  group: 'criteria' },
@@ -32,7 +47,7 @@ export const ACTION_FIELDS: readonly FieldDef[] = [
   { key: 'shouldNeverMarkAsImportant', label: 'Never mark important',  type: 'boolean', group: 'action' },
   { key: 'forwardTo',                  label: 'Forward to',            type: 'string',  group: 'action' },
   { key: 'label',                      label: 'Apply label',           type: 'string',  group: 'action' },
-  { key: 'smartLabelToApply',          label: 'Categorize as',         type: 'string',  group: 'action' },
+  { key: 'smartLabelToApply',          label: 'Categorize as',         type: 'select',  group: 'action', options: SMART_LABEL_OPTIONS },
 ] as const;
 
 export const ALL_FIELDS: readonly FieldDef[] = [...CRITERIA_FIELDS, ...ACTION_FIELDS];

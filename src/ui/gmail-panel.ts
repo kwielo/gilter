@@ -12,6 +12,7 @@ import * as api from '../infra/gmail-api';
 import * as store from '../store/filter-store';
 import { fromGmailFilter, toGmailFilter } from '../domain/api-mapper';
 import type { GmailLabel } from '../domain/gmail-types';
+import { setLabels } from '../store/label-cache';
 import { toast } from './toast';
 
 export class GmailPanel extends Component {
@@ -130,6 +131,8 @@ export class GmailPanel extends Component {
         api.listLabels(),
       ]);
       this.labels = labels;
+      const userLabels = labels.filter(l => l.type === 'user').map(l => l.name);
+      setLabels(userLabels);
 
       const mapped = filters.map(f => fromGmailFilter(f, labels));
       const email = auth.getUserEmail();

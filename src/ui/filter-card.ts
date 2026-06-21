@@ -8,7 +8,7 @@
 
 import { Component } from './component';
 import { FilterEditor } from './filter-editor';
-import { getFieldDef } from '../domain/schema';
+import { getFieldDef, SMART_LABEL_OPTIONS } from '../domain/schema';
 import type { Filter, FilterCriteria, FilterActions } from '../domain/types';
 import * as store from '../store/filter-store';
 import * as selection from '../store/selection';
@@ -86,7 +86,12 @@ export class FilterCard extends Component {
     return entries.map(([key, val]) => {
       const def = getFieldDef(key);
       const label = def?.label ?? key;
-      const display = val === true ? '' : `: ${escHtml(String(val))}`;
+      let displayVal = String(val);
+      if (key === 'smartLabelToApply') {
+        const opt = SMART_LABEL_OPTIONS.find(o => o.value === val);
+        if (opt) displayVal = opt.label;
+      }
+      const display = val === true ? '' : `: ${escHtml(displayVal)}`;
       return `<span class="badge badge--${group}">${escHtml(label)}${display}</span>`;
     }).join(' ');
   }
