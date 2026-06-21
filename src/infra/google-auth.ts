@@ -10,7 +10,7 @@
 
 import { emit, Events } from '../store/event-bus';
 
-const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.settings.basic https://www.googleapis.com/auth/gmail.labels.readonly';
+const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.settings.basic https://www.googleapis.com/auth/gmail.labels';
 
 interface TokenResponse {
   access_token: string;
