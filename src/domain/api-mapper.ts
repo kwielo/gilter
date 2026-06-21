@@ -81,14 +81,15 @@ function mapActionsFromApi(ga: GmailFilterAction, idMap: LabelMap): FilterAction
     }
   }
 
-  // User labels → label (use name, take first one found)
+  // User labels → label array
+  const userLabels: string[] = [];
   for (const lid of addIds) {
     const label = idMap.get(lid);
     if (label && label.type === 'user') {
-      a.label = label.name;
-      break;
+      userLabels.push(label.name);
     }
   }
+  if (userLabels.length > 0) a.label = userLabels;
 
   return a;
 }
@@ -110,8 +111,10 @@ function mapActionsToApi(a: FilterActions, nameMap: Map<string, GmailLabel>): Gm
   }
 
   if (a.label) {
-    const label = nameMap.get(a.label);
-    if (label) addLabelIds.push(label.id);
+    for (const name of a.label) {
+      const label = nameMap.get(name);
+      if (label) addLabelIds.push(label.id);
+    }
   }
 
   const action: GmailFilterAction = {};

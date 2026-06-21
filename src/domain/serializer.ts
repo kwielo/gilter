@@ -49,7 +49,13 @@ function serializeEntry(filter: Filter): string[] {
   };
 
   for (const [k, v] of Object.entries(filter.criteria)) emitProp(k, v);
-  for (const [k, v] of Object.entries(filter.actions))  emitProp(k, v);
+  for (const [k, v] of Object.entries(filter.actions)) {
+    if (k === 'label' && Array.isArray(v)) {
+      for (const label of v) emitProp('label', label);
+    } else {
+      emitProp(k, v as string | boolean | undefined);
+    }
+  }
 
   lines.push(`\t\t<apps:property name='sizeOperator' value='s_sl'/>`);
   lines.push(`\t\t<apps:property name='sizeUnit' value='s_smb'/>`);

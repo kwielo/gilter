@@ -56,8 +56,14 @@ function parseEntry(entry: Element): Filter {
       const parsed = BOOLEAN_KEYS.has(name) ? value === 'true' : value;
       (criteria as Record<string, string | boolean>)[name] = parsed;
     } else if (ACTION_KEYS.has(name)) {
-      const parsed = BOOLEAN_KEYS.has(name) ? value === 'true' : value;
-      (actions as Record<string, string | boolean>)[name] = parsed;
+      if (name === 'label') {
+        const arr = actions.label ?? [];
+        arr.push(value);
+        actions.label = arr;
+      } else {
+        const parsed = BOOLEAN_KEYS.has(name) ? value === 'true' : value;
+        (actions as Record<string, string | boolean>)[name] = parsed;
+      }
     }
   }
 

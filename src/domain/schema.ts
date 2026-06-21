@@ -5,7 +5,7 @@
  * editor form, and validation logic all derive their behaviour from this map.
  */
 
-export type FieldType = 'string' | 'boolean' | 'select';
+export type FieldType = 'string' | 'boolean' | 'select' | 'tags';
 
 export interface SelectOption {
   value: string;
@@ -46,7 +46,7 @@ export const ACTION_FIELDS: readonly FieldDef[] = [
   { key: 'shouldAlwaysMarkAsImportant',label: 'Always mark important', type: 'boolean', group: 'action' },
   { key: 'shouldNeverMarkAsImportant', label: 'Never mark important',  type: 'boolean', group: 'action' },
   { key: 'forwardTo',                  label: 'Forward to',            type: 'string',  group: 'action' },
-  { key: 'label',                      label: 'Apply label',           type: 'string',  group: 'action' },
+  { key: 'label',                      label: 'Apply labels',          type: 'tags',    group: 'action' },
   { key: 'smartLabelToApply',          label: 'Categorize as',         type: 'select',  group: 'action', options: SMART_LABEL_OPTIONS },
 ] as const;
 

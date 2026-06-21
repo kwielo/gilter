@@ -575,6 +575,64 @@ body {
   border-color: var(--color-primary);
 }
 
+.filter-editor__field--tags {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.filter-editor__field--tags > span {
+  min-width: 120px;
+  padding-top: 6px;
+}
+.filter-editor__tags-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.filter-editor__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.filter-editor__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.filter-editor__tag-remove {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0 2px;
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0.7;
+}
+.filter-editor__tag-remove:hover {
+  opacity: 1;
+}
+.filter-editor__tag-input {
+  padding: 5px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: 13px;
+  font-family: var(--font-sans);
+}
+.filter-editor__tag-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
 .filter-editor__select {
   flex: 1;
   padding: 5px 8px;

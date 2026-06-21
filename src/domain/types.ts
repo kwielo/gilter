@@ -34,7 +34,7 @@ export interface FilterActions {
   shouldAlwaysMarkAsImportant?: boolean;
   shouldNeverMarkAsImportant?: boolean;
   forwardTo?: string;
-  label?: string;
+  label?: string[];
   smartLabelToApply?: string;
 }
 

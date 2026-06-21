@@ -19,28 +19,30 @@ interface EditorOptions {
 export class FilterEditor extends Component {
   private readonly filter: Filter;
   private readonly onClose: () => void;
+  private currentLabels: string[];
 
   constructor(filter: Filter, opts: EditorOptions) {
     super('form', 'filter-editor');
     this.filter = filter;
     this.onClose = opts.onClose;
+    this.currentLabels = [...(filter.actions.label ?? [])];
     this.render();
     this.bind();
   }
 
   private render(): void {
     const { criteria, actions } = this.filter;
-    const labels = labelCache.getLabels();
+    const suggestions = labelCache.getLabels();
 
     this.el.innerHTML = `
-      ${labels.length > 0 ? `<datalist id="label-suggestions">${labels.map(l => `<option value="${escAttr(l)}">`).join('')}</datalist>` : ''}
+      ${suggestions.length > 0 ? `<datalist id="label-suggestions">${suggestions.map(l => `<option value="${escAttr(l)}">`).join('')}</datalist>` : ''}
       <fieldset class="filter-editor__group">
         <legend>Criteria</legend>
         ${CRITERIA_FIELDS.map(f => this.field(f, (criteria as Record<string, unknown>)[f.key])).join('')}
       </fieldset>
       <fieldset class="filter-editor__group">
         <legend>Actions</legend>
-        ${ACTION_FIELDS.map(f => this.field(f, (actions as Record<string, unknown>)[f.key])).join('')}
+        ${ACTION_FIELDS.map(f => this.field(f, f.key === 'label' ? this.currentLabels : (actions as Record<string, unknown>)[f.key])).join('')}
       </fieldset>
       <div class="filter-editor__actions">
         <button type="submit" class="btn btn--primary">Save</button>
@@ -73,12 +75,27 @@ export class FilterEditor extends Component {
         </label>`;
     }
 
-    const listAttr = def.key === 'label' && labelCache.hasLabels() ? ' list="label-suggestions"' : '';
+    if (def.type === 'tags') {
+      const tags = Array.isArray(value) ? value as string[] : [];
+      const listAttr = labelCache.hasLabels() ? ' list="label-suggestions"' : '';
+      const chipsHtml = tags.map((t, i) =>
+        `<span class="filter-editor__tag" data-index="${i}">${escHtml(t)}<button type="button" class="filter-editor__tag-remove" data-index="${i}" title="Remove">&times;</button></span>`
+      ).join('');
+      return `
+        <div class="filter-editor__field filter-editor__field--tags">
+          <span>${def.label}</span>
+          <div class="filter-editor__tags-wrap">
+            <div class="filter-editor__tags">${chipsHtml}</div>
+            <input type="text" class="filter-editor__tag-input" placeholder="Add label..."${listAttr} />
+          </div>
+        </div>`;
+    }
+
     return `
       <label class="filter-editor__field">
         <span>${def.label}</span>
         <input type="text" name="${def.key}" value="${escAttr(String(value ?? ''))}"
-               placeholder="${def.label}"${listAttr} />
+               placeholder="${def.label}" />
       </label>`;
   }
 
@@ -90,6 +107,51 @@ export class FilterEditor extends Component {
 
     const cancelBtn = this.el.querySelector<HTMLButtonElement>('.filter-editor__cancel')!;
     this.listen(cancelBtn, 'click', () => this.onClose());
+
+    this.bindTags();
+  }
+
+  private bindTags(): void {
+    const input = this.el.querySelector<HTMLInputElement>('.filter-editor__tag-input');
+    if (!input) return;
+
+    this.listen(input, 'keydown', (e: Event) => {
+      const ke = e as KeyboardEvent;
+      if (ke.key === 'Enter') {
+        ke.preventDefault();
+        const val = input.value.trim();
+        if (val && !this.currentLabels.includes(val)) {
+          this.currentLabels.push(val);
+          this.render();
+          this.bind();
+        }
+        input.value = '';
+      }
+    });
+
+    // Also add on blur / datalist selection
+    this.listen(input, 'change', () => {
+      const val = input.value.trim();
+      if (val && !this.currentLabels.includes(val)) {
+        this.currentLabels.push(val);
+        this.render();
+        this.bind();
+      }
+      input.value = '';
+    });
+
+    const removeButtons = this.el.querySelectorAll<HTMLButtonElement>('.filter-editor__tag-remove');
+    for (const btn of removeButtons) {
+      this.listen(btn, 'click', (e: Event) => {
+        e.preventDefault();
+        const idx = parseInt(btn.dataset.index ?? '', 10);
+        if (!isNaN(idx)) {
+          this.currentLabels.splice(idx, 1);
+          this.render();
+          this.bind();
+        }
+      });
+    }
   }
 
   private save(): void {
@@ -115,6 +177,10 @@ export class FilterEditor extends Component {
         const el = this.el.querySelector<HTMLSelectElement>(`[name="${def.key}"]`)!;
         const val = el.value;
         if (val) (actions as Record<string, unknown>)[def.key] = val;
+      } else if (def.type === 'tags') {
+        if (this.currentLabels.length > 0) {
+          (actions as Record<string, unknown>)[def.key] = [...this.currentLabels];
+        }
       } else {
         const el = this.el.querySelector<HTMLInputElement>(`[name="${def.key}"]`)!;
         const val = el.value.trim();
