@@ -2,7 +2,7 @@
   "name": "gilter",
   "compatibility_date": "2026-06-20",
   "build": {
-    "command": "npm run build"
+    "command": "VITE_GOOGLE_CLIENT_ID=408981168126-m894h1o8lm1vk1ohr21hm71iitntckmq.apps.googleusercontent.com npm run build"
   },
   "assets": {
     "directory": "./dist"
