@@ -2,7 +2,8 @@
  * Filter card component — a single row/card in the filter list.
  *
  * Displays a summary of the filter's criteria and actions as badges.
- * Expanding the card shows the inline editor.
+ * Expanding the card shows the inline editor. Includes a selection checkbox
+ * for bulk operations and supports drag-to-reorder via drag handle.
  */
 
 import { Component } from './component';
@@ -10,12 +11,14 @@ import { FilterEditor } from './filter-editor';
 import { getFieldDef } from '../domain/schema';
 import type { Filter, FilterCriteria, FilterActions } from '../domain/types';
 import * as store from '../store/filter-store';
+import * as selection from '../store/selection';
 import { toast } from './toast';
 
 export class FilterCard extends Component {
   private readonly filter: Filter;
   private readonly index: number;
   private editor: FilterEditor | null = null;
+  private checkbox: HTMLInputElement | null = null;
 
   constructor(filter: Filter, index: number) {
     super('article', 'filter-card');
@@ -31,6 +34,17 @@ export class FilterCard extends Component {
 
     this.el.innerHTML = `
       <header class="filter-card__header">
+        <label class="filter-card__select" title="Select">
+          <input type="checkbox" class="filter-card__checkbox"
+                 ${selection.isSelected(this.filter.id) ? 'checked' : ''} />
+        </label>
+        <span class="filter-card__drag-handle" title="Drag to reorder" aria-label="Drag handle">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+            <circle cx="9" cy="5" r="1.5"/><circle cx="15" cy="5" r="1.5"/>
+            <circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/>
+            <circle cx="9" cy="19" r="1.5"/><circle cx="15" cy="19" r="1.5"/>
+          </svg>
+        </span>
         <span class="filter-card__index">#${this.index}</span>
         <div class="filter-card__summary">
           <div class="filter-card__criteria">${this.renderBadges(criteria, 'criteria')}</div>
@@ -59,6 +73,8 @@ export class FilterCard extends Component {
       </header>
       <div class="filter-card__editor-slot"></div>
     `;
+
+    this.checkbox = this.el.querySelector<HTMLInputElement>('.filter-card__checkbox');
   }
 
   private renderBadges(props: FilterCriteria | FilterActions, group: 'criteria' | 'action'): string {
@@ -80,6 +96,13 @@ export class FilterCard extends Component {
     const dupBtn    = this.el.querySelector<HTMLButtonElement>('.filter-card__dup')!;
     const deleteBtn = this.el.querySelector<HTMLButtonElement>('.filter-card__delete')!;
 
+    if (this.checkbox) {
+      this.listen(this.checkbox, 'change', (e: Event) => {
+        e.stopPropagation();
+        selection.toggle(this.filter.id);
+      });
+    }
+
     this.listen(editBtn, 'click', () => this.toggleEditor());
     this.listen(dupBtn, 'click', () => {
       store.duplicateFilter(this.filter.id);
@@ -90,6 +113,12 @@ export class FilterCard extends Component {
         store.removeFilter(this.filter.id);
       }
     });
+  }
+
+  updateSelectionState(): void {
+    if (this.checkbox) {
+      this.checkbox.checked = selection.isSelected(this.filter.id);
+    }
   }
 
   private toggleEditor(): void {

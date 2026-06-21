@@ -10,6 +10,7 @@
 import type { Filter, FilterCriteria, FilterActions, FeedMeta } from '../domain/types';
 import { generateFilterId } from '../domain/parser';
 import { emit, Events } from './event-bus';
+import { pushState } from './history';
 
 let meta: FeedMeta = { title: 'Mail Filters', authorName: '', authorEmail: '' };
 let filters: Filter[] = [];
@@ -39,6 +40,7 @@ export function load(newMeta: FeedMeta, newFilters: Filter[]): void {
 }
 
 export function addFilter(): Filter {
+  pushState();
   const filter: Filter = { id: generateFilterId(), criteria: {}, actions: {} };
   filters = [...filters, filter];
   selectedId = filter.id;
@@ -49,6 +51,7 @@ export function addFilter(): Filter {
 export function updateFilter(id: string, criteria: FilterCriteria, actions: FilterActions): void {
   const idx = filters.findIndex(f => f.id === id);
   if (idx === -1) return;
+  pushState();
   filters = filters.map((f, i) =>
     i === idx ? { ...f, criteria: { ...criteria }, actions: { ...actions } } : f,
   );
@@ -56,6 +59,7 @@ export function updateFilter(id: string, criteria: FilterCriteria, actions: Filt
 }
 
 export function removeFilter(id: string): void {
+  pushState();
   filters = filters.filter(f => f.id !== id);
   if (selectedId === id) selectedId = null;
   notify();
@@ -64,6 +68,7 @@ export function removeFilter(id: string): void {
 export function duplicateFilter(id: string): Filter | undefined {
   const src = filters.find(f => f.id === id);
   if (!src) return undefined;
+  pushState();
   const dup = deepClone(src);
   dup.id = generateFilterId();
   const idx = filters.indexOf(src);
@@ -86,6 +91,28 @@ export function selectFilter(id: string | null): void {
 
 function notify(): void {
   emit(Events.FILTERS_CHANGED, { meta: getMeta(), filters: getFilters() });
+}
+
+export function removeMany(ids: Set<string>): number {
+  if (ids.size === 0) return 0;
+  pushState();
+  const before = filters.length;
+  filters = filters.filter(f => !ids.has(f.id));
+  if (selectedId && ids.has(selectedId)) selectedId = null;
+  notify();
+  return before - filters.length;
+}
+
+export function moveFilter(fromIndex: number, toIndex: number): void {
+  if (fromIndex === toIndex) return;
+  if (fromIndex < 0 || fromIndex >= filters.length) return;
+  if (toIndex < 0 || toIndex >= filters.length) return;
+  pushState();
+  const arr = [...filters];
+  const [moved] = arr.splice(fromIndex, 1);
+  arr.splice(toIndex, 0, moved);
+  filters = arr;
+  notify();
 }
 
 function deepClone(f: Filter): Filter {

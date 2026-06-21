@@ -14,6 +14,7 @@ import * as store from './store/filter-store';
 import { initToast } from './ui/toast';
 import { Toolbar } from './ui/toolbar';
 import { ImportPanel } from './ui/import-panel';
+import { SearchBar } from './ui/search-bar';
 import { FilterList } from './ui/filter-list';
 
 function boot(): void {
@@ -29,6 +30,7 @@ function boot(): void {
 
   new Toolbar().mount(app);
   new ImportPanel().mount(app);
+  new SearchBar().mount(app);
   new FilterList().mount(app);
 }
 
