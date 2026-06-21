@@ -32,4 +32,6 @@ export const Events = Object.freeze({
   IMPORT_SUCCESS:    'import:success',
   IMPORT_ERROR:      'import:error',
   TOAST:             'toast',
+  HISTORY_CHANGED:   'history:changed',
+  SELECTION_CHANGED: 'selection:changed',
 });
