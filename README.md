@@ -21,6 +21,11 @@ npm run dev
 
 Open http://localhost:5173 in your browser.
 
+```bash
+npm test          # run unit tests once
+npm run test:watch
+```
+
 ## How to use
 
 1. Go to Gmail → Settings → Filters and Blocked Addresses → Export
