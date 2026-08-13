@@ -116,5 +116,12 @@ export function moveFilter(fromIndex: number, toIndex: number): void {
 }
 
 function deepClone(f: Filter): Filter {
-  return { id: f.id, criteria: { ...f.criteria }, actions: { ...f.actions } };
+  return {
+    id: f.id,
+    criteria: { ...f.criteria },
+    actions: {
+      ...f.actions,
+      ...(f.actions.label ? { label: [...f.actions.label] } : {}),
+    },
+  };
 }

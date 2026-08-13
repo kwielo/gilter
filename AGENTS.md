@@ -19,6 +19,8 @@ Gilter is a client-side Gmail filter editor. It imports, views, edits, and expor
 | Command | Purpose |
 |---------|---------|
 | `npm run build` | Typecheck (`tsc --noEmit`) + Vite production build |
+| `npm test` | Run unit tests once (Vitest) |
+| `npm run test:watch` | Vitest watch mode |
 | `npm run dev` | Vite dev server (default: http://localhost:5173) |
 | `npm run dev -- --host 0.0.0.0` | Dev server accessible externally |
 | `npm run typecheck` | TypeScript typecheck only |
