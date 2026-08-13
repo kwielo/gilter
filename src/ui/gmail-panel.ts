@@ -5,15 +5,18 @@
  * from the Gmail API and maps them to gilter's internal model.
  */
 
-import { Component } from './component';
-import { Events } from '../store/event-bus';
-import * as auth from '../infra/google-auth';
-import * as api from '../infra/gmail-api';
-import * as store from '../store/filter-store';
 import { fromGmailFilter, toGmailFilter } from '../domain/api-mapper';
 import type { GmailLabel } from '../domain/gmail-types';
+import { Events } from '../store/event-bus';
+import * as store from '../store/filter-store';
 import { setLabels } from '../store/label-cache';
+import { getCookie, setCookie } from '../infra/cookies';
+import * as auth from '../infra/google-auth';
+import * as api from '../infra/gmail-api';
+import { Component } from './component';
 import { toast } from './toast';
+
+const GOOGLE_LOGIN_COOKIE = 'gilter_google_login';
 
 export class GmailPanel extends Component {
   private labels: GmailLabel[] = [];
@@ -22,7 +25,26 @@ export class GmailPanel extends Component {
   constructor() {
     super('section', 'gmail-panel');
     this.subscribe(Events.AUTH_CHANGED, () => this.render());
+    this.applyVisibility(isGoogleLoginVisible());
+    this.listen(document, 'keydown', (e: Event) => this.handleShortcut(e as KeyboardEvent));
     this.render();
+  }
+
+  private handleShortcut(ke: KeyboardEvent): void {
+    if (!(ke.metaKey || ke.ctrlKey) || !ke.shiftKey || ke.code !== 'KeyG') return;
+    ke.preventDefault();
+    this.toggleVisibility();
+  }
+
+  private applyVisibility(visible: boolean): void {
+    this.el.classList.toggle('gmail-panel--hidden', !visible);
+  }
+
+  private toggleVisibility(): void {
+    const nextVisible = this.el.classList.contains('gmail-panel--hidden');
+    this.applyVisibility(nextVisible);
+    setCookie(GOOGLE_LOGIN_COOKIE, nextVisible ? '1' : '0');
+    toast.info(nextVisible ? 'Google sign-in shown' : 'Google sign-in hidden');
   }
 
   private render(): void {
@@ -232,6 +254,10 @@ export class GmailPanel extends Component {
       });
     });
   }
+}
+
+function isGoogleLoginVisible(): boolean {
+  return getCookie(GOOGLE_LOGIN_COOKIE) === '1';
 }
 
 function escHtml(s: string): string {

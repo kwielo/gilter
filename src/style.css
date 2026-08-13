@@ -707,6 +707,9 @@ body {
 .gmail-panel {
   margin-bottom: 16px;
 }
+.gmail-panel--hidden {
+  display: none;
+}
 
 .gmail-panel__status {
   display: flex;
