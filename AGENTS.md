@@ -26,7 +26,7 @@ Gilter is a client-side Gmail filter editor. It imports, views, edits, and expor
 | `npm run typecheck` | TypeScript typecheck only |
 | `npm run preview` | Preview production build locally |
 
-Always run `npm run build` before committing to verify both typecheck and build pass.
+Always run `npm test` and `npm run build` before committing to verify tests, typecheck, and the production build pass.
 
 ## Architecture
 
@@ -106,6 +106,18 @@ src/
 - `develop` — primary branch, auto-deploys to production
 - Feature branches: `devin/<timestamp>-<description>` off `develop`
 - PRs target `develop`
+
+## Testing
+
+Always provide tests with code changes. Do not land behavior, bug fixes, or refactors without covering them.
+
+- **Framework:** Vitest 4 (jsdom environment), configured in `vite.config.js`
+- **Location:** Colocate tests next to the code they cover: `src/<layer>/__tests__/<name>.test.ts`
+- **Scope:** Prefer unit tests for `domain/`, `store/`, and `infra/` (pure logic and isolated adapters). UI components are optional at the unit level except for shared primitives like `Component`; full UI flows belong in e2e if added later
+- **Commands:** `npm test` (CI and pre-commit) and `npm run test:watch` (local)
+- **CI:** `.github/workflows/ci.yml` runs typecheck, tests, and `npm run build`
+
+When adding or changing behavior, extend the existing test file for that module (or create one in `__tests__/`) and assert the new behavior plus relevant edge cases.
 
 ## Code Style
 
